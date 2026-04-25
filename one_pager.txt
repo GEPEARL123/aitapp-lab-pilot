@@ -1,0 +1,129 @@
+AIiTAPP — Technical Overview
+Delegation Scoring for AI Research Agents
+April 2026 | Confidential | AyenaSelf
+
+
+THE PROBLEM
+───────────────────────────────────────────────────────────────────────────────
+AI research agents report confidence in their recommendations — not the quality
+of the evidence behind them. A pattern surfaced from stale, contradicted, or
+poorly-sourced data can carry an 8/10 confidence score. The researcher sees
+the confidence. Not the evidence quality. The wrong branch is taken.
+
+McKinsey documented 44% variability in professional judgment on identical
+cases — caused not by incompetence, but by inconsistency in evidence quality
+at the moment of decision. Kahneman called this noise. AIiTAPP measures it.
+
+
+WHAT AIiTAPP DOES
+───────────────────────────────────────────────────────────────────────────────
+AIiTAPP intercepts a proposed agent action BEFORE it reaches the researcher.
+It scores the evidence behind the action across six dimensions and assigns
+an authority state. The researcher receives an evidence packet — not a
+raw recommendation.
+
+The system does not replace researcher judgment.
+It scores the evidentiary basis of the AI's recommendation at the moment
+it is made, before a human acts on it.
+
+
+THE DELEGATION SCORE
+───────────────────────────────────────────────────────────────────────────────
+S = (C × 0.15) + (P × 0.30) + (T × 0.20) + (R × 0.25) + (N × 0.07) + (F × 0.03)
+
+  C  Confidence       Agent-reported certainty (0-10)
+  P  Provenance       Evidence traceability and source quality (0-10)  ← elevated in medical
+  T  Trust History    Agent calibration from prior outcomes (0-10)
+  R  Risk             Inverted from risk class: critical=1.0 / high=3.0  ← elevated in medical
+  N  Contradiction    Inverted from conflict count: 0 conflicts=9.0 / 1=6.0
+  F  Freshness        Age of oldest evidence: <1h=9.0 / <24h=7.0 / >720h=1.0
+
+Score range: 0.0 – 10.0. Computed deterministically. Explainable at every dimension.
+
+
+THE FOUR AUTHORITY STATES
+───────────────────────────────────────────────────────────────────────────────
+  GREEN  ≥ 7.5   Autonomous — recommendation passes to researcher
+  YELLOW 5.5–7.4 Draft only — quick human review before researcher sees it
+  ORANGE 3.5–5.4 PAUSE — evidence packet generated — researcher sees gap analysis
+  RED    < 3.5   ABSTAIN — mandatory escalation — agent cannot proceed
+
+
+THE HUMAN INSERTION PACKET
+───────────────────────────────────────────────────────────────────────────────
+When a recommendation scores below GREEN, the system generates a structured
+three-item evidence packet for the reviewer:
+
+  1. Highest-scoring dimension — why the recommendation has partial support
+  2. Lowest-scoring dimension — the primary evidence weakness
+  3. Flagged dimension — if Contradiction or Freshness scores below 4.0
+
+Example output (ORANGE state):
+  ✅ Strongest: Confidence (8.2/10) — Agent certainty is high
+  ⚠️  Weakest:  Freshness (1.0/10) — Oldest source is 47 days old
+  🚩 Flagged:  Contradiction detected against Dataset 4 (not in query)
+  → Recommended: Verify Dataset 3 freshness. Resolve contradiction before acting.
+
+
+OUTCOME-BASED RECALIBRATION
+───────────────────────────────────────────────────────────────────────────────
+Every scored action, human decision, and eventual outcome is logged.
+The system computes a rolling calibration score for each agent:
+
+  Correct=10.0 / Mostly correct=7.0 / Incorrect=3.0 / Harmful=0.0
+
+This calibration score becomes the Trust History dimension in future scoring
+for the same agent — creating a closed feedback loop. Agents that make
+accurate recommendations earn higher authority. Agents that surface false
+patterns lose it. The system gets more accurate with use.
+
+
+AGENT-TO-AGENT TRUST DISCOUNTING
+───────────────────────────────────────────────────────────────────────────────
+In federated research pipelines where one agent's output feeds another,
+AIiTAPP discounts Provenance quality based on the upstream agent's
+calibration score. Low-reliability upstream sources cannot contaminate
+downstream authority decisions.
+
+
+INTELLECTUAL FOUNDATION
+───────────────────────────────────────────────────────────────────────────────
+AIiTAPP applies Kahneman, Sibony & Sunstein's Noise Theory to machine agents.
+The same agent, given the same task type, may have high-quality evidence in
+one instance and low-quality evidence in another. The delegation score is a
+noise-reduction mechanism — making authority decisions consistent, calibrated,
+and traceable regardless of variability in evidence quality.
+
+Provisional patent filed: April 2026
+Attorney: DLA Piper LLP
+Claims: Multi-factor delegation scoring with outcome recalibration,
+        inter-agent trust discounting, propagation risk calculation
+
+
+CURRENT STATUS
+───────────────────────────────────────────────────────────────────────────────
+✅  Six-factor scoring engine — complete, verified against hand-calculated outputs
+✅  Four-state authority control system — complete
+✅  Human insertion packet — complete
+✅  Outcome logging and recalibration loop — complete
+✅  Agent-to-agent trust discount — complete
+✅  Propagation risk calculator — complete
+✅  iOS implementation — TestFlight build 2.0.0 build 4
+⚙️  Server-side API — deploying this week (Python FastAPI)
+⚙️  HIPAA-appropriate audit logging — Week 2 pilot deliverable
+⚙️  Federated research agent integration — Week 2-3 pilot deliverable
+
+
+PILOT REQUEST
+───────────────────────────────────────────────────────────────────────────────
+We are seeking two research institutions for a 60-day pilot on real federated
+data workflows. The pilot begins with synthetic scenario validation and
+progresses to live agent integration with full audit logging.
+
+No patient data is required for the initial demonstration.
+HIPAA-appropriate logging is a Week 2 deliverable for any healthcare-adjacent
+integration.
+
+
+Gary Pearl | Founder, AyenaSelf
+gary@ayenaself.com | tappitnow.com

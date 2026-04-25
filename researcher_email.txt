@@ -1,0 +1,84 @@
+SUBJECT LINE (choose one):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Option A (if you know the conference session):
+"A trust scoring layer for federated research agents — 20 minutes before [SESSION NAME]"
+
+Option B (if cold outreach):
+"Before your AI agents act — a delegation scoring layer for federated research"
+
+Option C (if connected through the data engineer):
+"[DATA ENGINEER NAME] suggested I reach out — AIiTAPP pilot for federated research"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+EMAIL BODY — COPY FROM HERE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dr. [LAST NAME],
+
+I am reaching out ahead of [CONFERENCE NAME] about a system
+I have built that addresses a problem your team is likely
+encountering directly.
+
+As federated research systems deploy AI agents to surface
+patterns across distributed institution datasets, those agents
+report confidence in their recommendations — not the quality
+of the evidence behind them. A pattern surfaced from stale,
+contradicted, or poorly-sourced data can carry an 8/10
+confidence score. The researcher sees the confidence. Not
+the evidence gap.
+
+AIiTAPP is a pre-execution delegation scoring layer for
+research AI agents. Before a recommendation reaches a
+researcher, it scores the evidence across six dimensions —
+confidence, provenance, trust history, risk, contradiction,
+and data freshness — and assigns an authority state: proceed,
+draft only, pause for review, or abstain. The researcher
+receives an evidence packet specifying the weakest dimension
+and what would need to be verified before acting.
+
+The system does not ask whether the AI is confident.
+It asks whether the evidence behind the recommendation is
+good enough to act on.
+
+This is grounded in Kahneman, Sibony, and Sunstein's noise
+research — the finding that 44% variability in professional
+judgment on identical cases comes not from incompetence
+but from inconsistency in evidence quality at the moment
+of decision. AIiTAPP applies that framework to machine agents,
+where the inconsistency is in data provenance and freshness
+rather than human state.
+
+I have a working implementation with a provisional patent
+filed this month through DLA Piper. The system is running
+on iOS with a server-side API deploying this week.
+
+I would like 20 minutes — before or after [SESSION NAME],
+or at any point during the conference — to show you a live
+scoring demonstration on a synthetic federated rare disease
+scenario. No patient data required.
+
+I am attaching a one-page technical overview of the scoring
+formula, authority states, and the specific federated research
+embodiment covered in the patent disclosure.
+
+[YOUR NAME]
+Founder, AyenaSelf / AIiTAPP
+[YOUR EMAIL]
+[YOUR PHONE — optional]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ATTACH: docs/one_pager.txt (convert to PDF before sending)
+DO NOT attach the patent disclosure — that goes only after NDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+NOTES ON SENDING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Send 3-4 days before the conference, not the night before
+- If no response in 48 hours, one follow-up is appropriate:
+  "Following up on AIiTAPP — happy to show a 5-minute live
+   demo at the conference if useful"
+- Do not attach the full patent package to the first email
+- If they respond with interest, send the NDA before showing
+  the full technical specification

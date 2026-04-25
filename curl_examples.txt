@@ -1,0 +1,148 @@
+AIiTAPP — Sample curl Commands
+═══════════════════════════════════════════════════════════════
+
+Replace BASE_URL with your deployed URL or use http://127.0.0.1:8000 locally.
+Replace YOUR_API_KEY with the value of AITAPP_API_KEY.
+
+export BASE_URL=http://127.0.0.1:8000
+export API_KEY=dev-key-change-in-production
+
+
+═══════════════════════════════════════════════════════════════
+1. HEALTH CHECK
+═══════════════════════════════════════════════════════════════
+
+curl $BASE_URL/health
+
+Expected:
+  {"status":"healthy","timestamp":"2026-04-25T...Z"}
+
+
+═══════════════════════════════════════════════════════════════
+2. DELEGATION SCORING — DEMO (no API key required)
+   Medical scenario: rare disease pattern recommendation
+   Expected: delegation_score ~4.5, authority_state ORANGE
+═══════════════════════════════════════════════════════════════
+
+curl -X POST $BASE_URL/v1/action/score/demo \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id":           "research-agent-rp-001",
+    "agent_name":         "RarePath Pattern Analyzer v2.1",
+    "action_type":        "send",
+    "action_description": "Surface ARID1B variant pattern to lead researcher: 34% higher response to Protocol X across three institution cohorts (n=47 combined)",
+    "confidence":          8.2,
+    "provenance_score":    4.1,
+    "trust_history_score": 4.0,
+    "risk_class":          "high",
+    "contradiction_count": 1,
+    "evidence_age_hours":  1128.0,
+    "downstream_action_count": 2,
+    "weight_profile":      "medical"
+  }'
+
+
+═══════════════════════════════════════════════════════════════
+3. DELEGATION SCORING — AUTHENTICATED (API key required)
+═══════════════════════════════════════════════════════════════
+
+curl -X POST $BASE_URL/v1/action/score \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: $API_KEY" \
+  -d '{
+    "agent_id":           "your-agent-id",
+    "agent_name":         "Your Agent Name",
+    "action_type":        "send",
+    "action_description": "Description of the proposed agent action",
+    "confidence":          7.0,
+    "provenance_score":    6.5,
+    "trust_history_score": 5.0,
+    "risk_class":          "medium",
+    "contradiction_count": 0,
+    "evidence_age_hours":  24.0,
+    "weight_profile":      "medical"
+  }'
+
+action_type values:  read | draft | send | commit | escalate
+risk_class values:   low | medium | high | critical
+weight_profile:      default | medical
+
+
+═══════════════════════════════════════════════════════════════
+4. EVIDENCE INTEGRITY CHECK — DEMO (no API key required)
+   Expected: integrity_gate BLOCK, supervisor_alert true
+═══════════════════════════════════════════════════════════════
+
+curl -X POST $BASE_URL/v1/evidence/check/demo \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id":           "research-agent-rp-001",
+    "agent_name":         "RarePath Pattern Analyzer v2.1",
+    "action_description": "Surface ARID1B variant pattern — recommend Protocol X modification",
+    "weight_profile":     "medical",
+    "internal_lab_evidence": [
+      {
+        "source_id":          "internal-rp-core-001",
+        "source_type":        "lab_study",
+        "claim_text":         "ARID1B variant patients show 34% higher response to Protocol X (n=120, replicated)",
+        "claim_type":         "validated_fact",
+        "evidence_status":    "published",
+        "provenance_score":   8.5,
+        "authority_score":    8.7,
+        "evidence_age_hours": 48.0,
+        "replication_status": "replicated",
+        "included_in_query":  true,
+        "intended_use":       "support"
+      }
+    ],
+    "external_evidence_sources": [
+      {
+        "source_id":          "ext-interview-dr-chen",
+        "source_type":        "interview",
+        "claim_text":         "Dr. Chen believes Protocol X benefit is stronger in younger patients",
+        "claim_type":         "interview_supposition",
+        "evidence_status":    "informal",
+        "provenance_score":   1.5,
+        "authority_score":    2.0,
+        "evidence_age_hours": 6.0,
+        "replication_status": "not_replicated",
+        "included_in_query":  true,
+        "intended_use":       "support"
+      }
+    ]
+  }'
+
+
+═══════════════════════════════════════════════════════════════
+5. EVIDENCE INTEGRITY CHECK — AUTHENTICATED (API key required)
+═══════════════════════════════════════════════════════════════
+
+curl -X POST $BASE_URL/v1/evidence/check \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: $API_KEY" \
+  -d '{
+    "agent_id":   "your-agent-id",
+    "agent_name": "Your Agent Name",
+    "action_description": "Proposed action this evidence supports",
+    "weight_profile": "medical",
+    "internal_lab_evidence": [ ... ],
+    "external_evidence_sources": [ ... ]
+  }'
+
+claim_type values:
+  validated_fact | provisional_finding | hypothesis |
+  interview_supposition | commentary_opinion |
+  stale_research | contradictory_unresolved | comparison_only
+
+intended_use values:  support | comparison_only | background_only
+
+integrity_gate output values:  PASS | REVIEW | PAUSE | BLOCK
+
+
+═══════════════════════════════════════════════════════════════
+6. INTERACTIVE DOCS (browser)
+═══════════════════════════════════════════════════════════════
+
+Open in browser:  http://127.0.0.1:8000/docs
+All endpoints are explorable and testable from the Swagger UI.
+The demo endpoints can be called directly from /docs without an API key.

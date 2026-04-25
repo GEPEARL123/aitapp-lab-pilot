@@ -1,0 +1,108 @@
+AIiTAPP CONFERENCE DEMO — PRE-FLIGHT CHECKLIST
+Run through this the night before and the morning of the presentation.
+Check every box. Do not skip any.
+
+═══════════════════════════════════════════════════════════════
+48 HOURS BEFORE — DO THESE FIRST
+═══════════════════════════════════════════════════════════════
+
+□  Railway API is deployed and health check returns 200
+   Test: curl https://YOUR_URL/health
+   Expected: {"status":"healthy","timestamp":"..."}
+
+□  Demo scenario scores correctly with medical weights
+   Test: python3 demo_medical.py
+   Expected: delegation_score approximately 4.5, state ORANGE
+
+□  Demo runs end-to-end without errors in under 5 minutes
+   Time it with a stopwatch. If over 5 minutes, trim the pauses.
+
+□  Screenshot backup taken and saved
+   Location: ~/Desktop/aitapp-demo-screenshot.png
+   Also saved to: iPhone Photos
+
+□  One-pager converted to PDF
+   In Terminal: 
+   If you have pandoc: pandoc docs/one_pager.txt -o docs/one_pager.pdf
+   Or: Open one_pager.txt in TextEdit → File → Export as PDF
+
+□  Researcher email drafted with correct name, conference, session
+   Confirm: attachment is one_pager.pdf not the patent package
+
+□  NDA drafted (from DLA Piper) — have it ready to send same day
+   as any positive response to the researcher email
+
+═══════════════════════════════════════════════════════════════
+MORNING OF PRESENTATION
+═══════════════════════════════════════════════════════════════
+
+□  Open Terminal
+□  Run: export AITAPP_API_URL=https://YOUR_RAILWAY_URL
+□  Run: python3 ~/Desktop/aitapp/demo/demo_medical.py
+□  Confirm ORANGE state and delegation score ~4.5
+□  Close Terminal (do not leave it open — start fresh for the demo)
+□  iPhone charged to at least 80%
+□  Screenshot backup visible in Photos app
+□  One-pager PDF on your phone as well as laptop
+
+═══════════════════════════════════════════════════════════════
+WHAT THE NUMBERS SHOULD BE — MEMORIZE THESE
+═══════════════════════════════════════════════════════════════
+
+Delegation score:      4.5  (ORANGE)
+Confidence dimension:  8.2  (HIGH — this is the trap)
+Provenance dimension:  4.1  (WEAK — Dataset 3 is stale)
+Trust history:         4.0  (LOW — 2 prior incorrect patterns)
+Risk dimension:        3.0  (HIGH risk class = low score)
+Contradiction:         6.0  (1 conflict detected)
+Freshness:             1.0  (47 days old = critical)
+
+The line that explains everything on stage:
+"The AI's confidence was 8.2. The evidence score was 4.5.
+ AIiTAPP scores the evidence, not the confidence."
+
+═══════════════════════════════════════════════════════════════
+IF SOMETHING GOES WRONG DURING THE DEMO
+═══════════════════════════════════════════════════════════════
+
+API unreachable:
+  → Open Photos, show screenshot backup
+  → Say: "I'll show you the output from our test run this morning"
+  → Continue with the numbers from memory
+
+Terminal looks wrong:
+  → Control + C to stop
+  → python3 demo_medical.py --offline
+  → This uses pre-calculated values, looks identical
+
+Laptop battery dies:
+  → Use iPhone: python3 is not needed
+  → Show the screenshot from Photos
+  → Walk through the numbers verbally — you have them memorized
+
+Questions you might get:
+  Q: "How do you define provenance score?"
+  A: "We score it 0-10 based on source count, traceability, and
+      independence of the underlying datasets. In this scenario,
+      one of three sources had no verifiable update in 47 days —
+      that alone dropped the provenance score to 4.1."
+
+  Q: "Is this HIPAA compliant?"
+  A: "HIPAA-appropriate audit logging is a Week 2 deliverable
+      for any healthcare pilot. The core system stores no PII —
+      it scores evidence quality, not patient data. The audit
+      trail records action type, authority state, and outcome —
+      nothing that would require PHI handling."
+
+  Q: "Who else is using this?"
+  A: "We are in the pilot phase. This conference is our first
+      institutional outreach. We are looking for two research
+      institutions to run a 60-day pilot. I would like to discuss
+      whether your team is the right fit."
+
+  Q: "How is this different from what Anthropic or OpenAI provide?"
+  A: "Their safety layers are intrinsic — baked into model behavior.
+      AIiTAPP is extrinsic — it sits above any model from any
+      provider and scores the evidence, not the model's output.
+      We are provider-agnostic. We do not replace their safety
+      layers. We are the governance infrastructure above them."
